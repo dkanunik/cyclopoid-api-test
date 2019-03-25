@@ -1,4 +1,4 @@
-package config;
+package cyclopoid.config;
 
 public class HostConfig {
     private static HostConfig ourInstance = new HostConfig();

@@ -1,6 +1,8 @@
 package cyclopoid.api.test;
 
-import config.HostConfig;
+import cyclopoid.config.HostConfig;
+import cyclopoid.db.DBManager;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static io.restassured.RestAssured.get;
@@ -23,4 +25,10 @@ public class FormApiTest {
                 .body("form.id", is(1))
                 .body("form.name", is("feedback"));
     }
+
+    @BeforeEach
+    private void restoreDB() {
+        DBManager.restoreDB();
+    }
+
 }

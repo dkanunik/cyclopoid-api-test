@@ -43,43 +43,33 @@ dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.3.2'
 }
 
-task evalDockerMachine(type: Exec) {
-    commandLine 'sh', 'eval', '\"$(docker-machine env cyclopoid)\"'
-}
-
 task dbRestore(type: Exec) {
     commandLine 'sh', 'db/restore.sh'
 }
 
 task envStart(type: Exec) {
-    //dependsOn evalDockerMachine
     commandLine 'docker-compose', '-f', 'docker/docker-compose-db.yml', 'up', '-d'
 }
 
 task envRemove(type: Exec) {
-    dependsOn evalDockerMachine
     commandLine 'docker-compose', '-f', 'docker/docker-compose-db.yml', 'down'
 }
 
 task envStop(type: Exec) {
-    dependsOn evalDockerMachine
     commandLine 'docker-compose', '-f', 'docker/docker-compose-db.yml', 'stop'
     finalizedBy envRemove
 }
 
 task backRemove(type: Exec) {
-    dependsOn evalDockerMachine
     commandLine 'docker-compose', '-f', 'docker/docker-compose-back.yml', 'down'
 }
 
 task backStop(type: Exec) {
-    dependsOn evalDockerMachine
     commandLine 'docker-compose', '-f', 'docker/docker-compose-back.yml', 'stop'
     finalizedBy backRemove
 }
 
 task backStart(type: Exec) {
-    //dependsOn evalDockerMachine
     commandLine 'docker-compose', '-f', 'docker/docker-compose-back.yml', 'up', '-d'
     finalizedBy dbRestore
 }
